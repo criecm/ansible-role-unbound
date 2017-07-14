@@ -1,0 +1,10 @@
+---
+- name: install unbound from pkgs
+  pkgng: name=unbound state=present
+
+- name: pidfile location in rc.conf
+  lineinfile:
+    dest: /etc/rc.conf
+    line: 'unbound_pidfile="/var/run/unbound.pid"'
+    regexp: '^unbound_pidfile'
+  when: unbound_pidfile != ""

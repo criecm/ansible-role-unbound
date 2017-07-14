@@ -1,0 +1,6 @@
+---
+unbound_dir: /var/unbound/etc
+unbound_trust_anchor: /var/unbound/db/root.key
+unbound_control_interface: /var/run/unbound.sock
+unbound_pidfile: /var/run/unbound.pid
+unbound_root_hints: /var/unbound/db/named.cache

@@ -1,0 +1,5 @@
+---
+- name: install unbound
+  apt:
+    name: unbound
+    state: present

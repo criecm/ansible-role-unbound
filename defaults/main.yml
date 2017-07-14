@@ -1,0 +1,49 @@
+---
+# depends on distribution (vars/FreeBSD.yml|OpenBSD.yml|...)
+unbound_base: /usr/sbin/unbound
+unbound_dir: /etc/unbound
+unbound_trust_anchor: /etc/unbound/root.key
+unbound_control_interface: ''
+unbound_root_hints: ''
+#/etc/unbound/named.cache
+
+# unbound service ip's (may be ip@port)
+# all interfaces if none here
+unbound_interfaces: []
+
+# unbound pidfile
+unbound_pidfile: ''
+
+# allowed public networks
+# ex:
+#   - 1.2.3.4/24
+our_nets: []
+
+# direct access to our public domains
+# when we can reach dns master without help of the roots (stub-zones)
+# ex:
+#  - { name: "univ.fr.", masters: [ "192.168.1.1", "192.168.1.2@5353" ] }
+our_domains: []
+
+# allowed AND protected private networks
+# (see private-address/private-domain)
+# ex:
+#   - 192.168.1.0/24
+private_nets: []
+
+# domains allowed to contain private_nets IP's (and config stub-zone)
+# same syntax as our_domains
+private_domains: []
+
+# RFC1918/RFC3330/RFC4291/RFC4193/RFC4291/RFC7686 local zones
+# see man unbound.conf/nodefault
+# ex:
+#  - 168.192.in-addr.arpa.
+#  - 8.E.F.ip6.arpa.
+unbound_nodefault: []
+
+# eventual forwarders
+unbound_forwarders: []
+
+# forward-zones (same syntax as our_domains, but 'master' MUST be a resolver itself
+unbound_forward_domains: []

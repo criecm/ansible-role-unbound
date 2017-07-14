@@ -1,0 +1,46 @@
+---
+- include_vars: "{{ item }}"
+  with_first_found:
+    - '{{ansible_os_family}}.yml'
+  tags: unbound
+
+- include: '{{ item }}'
+  with_first_found:
+    - files:
+      - '{{ansible_os_family}}.yml'
+      skip: True
+  tags: unbound, pkg
+
+- name: active unbound
+  service:
+    name: unbound
+    enabled: yes
+  tags: unbound,rc
+
+- name: check control keys
+  stat:
+    path: '{{ unbound_dir }}/unbound_server.key'
+  register: unbound_key
+  tags: unbound,config
+
+- name: unbound-control-setup
+  command: '{{ unbound_base }}-control-setup'
+  when: unbound_key.stat.exists == False
+  tags: unbound,config
+  
+- name: root hints
+  get_url:
+    url: 'http://www.internic.net/domain/named.root'
+    dest: '{{ unbound_root_hints }}'
+  tags: unbound,config
+
+- name: unbound.conf
+  template:
+    src: unbound.conf.j2
+    dest: '{{ unbound_dir }}/unbound.conf'
+    mode: '0644'
+    owner: root
+#    validate: '{{ unbound_base }}-checkconf %s'
+    backup: yes
+  tags: unbound,config
+  notify: restart unbound

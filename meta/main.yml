@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Geoffroy Desvernay
-  description: iocage jail management for FreeBSD
+  description: unbound resolver
   company: Ecole Centrale Marseille
 
   license: BSD
@@ -11,6 +11,7 @@ galaxy_info:
   platforms:
     - name: FreeBSD
       versions:
+        - 11.1
         - 11.0
         - 10.3
     - name: OpenBSD

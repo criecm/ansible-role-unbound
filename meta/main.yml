@@ -11,7 +11,6 @@ galaxy_info:
   platforms:
     - name: FreeBSD
       versions:
-        - 11.1
         - 11.0
         - 10.3
     - name: OpenBSD
@@ -22,8 +21,9 @@ galaxy_info:
         - stretch
 
   galaxy_tags:
-    - iocage
-    - jails
+    - dns
+    - resolver
+    - unbound
 
 dependencies:
   - role: criecm.common

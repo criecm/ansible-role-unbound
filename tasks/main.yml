@@ -4,7 +4,7 @@
     - '{{ansible_os_family}}.yml'
   tags: unbound
 
-- include: '{{ item }}'
+- include_tasks: '{{ item }}'
   with_first_found:
     - files:
       - '{{ansible_os_family}}.yml'

@@ -42,5 +42,5 @@
     owner: root
 #    validate: '{{ unbound_base }}-checkconf %s'
     backup: yes
-  tags: unbound,config
+  tags: unbound,config,zones
   notify: restart unbound

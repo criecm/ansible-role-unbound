@@ -14,15 +14,17 @@
   stat:
     path: /var/unbound
   register: localconfdir
+  failed_when: False
 
 - name: rename unbound config dir
   file:
     path: /var/unbound
     state: absent
-  when: localconfdir.stat.isdir
+  when: '"isdir" in localconfdir.stat and localconfdir.stat.isdir'
 
 - name: link local unbound config
   file:
-    dest: /var/unbound
+    path: /var/unbound
     src: /usr/local/etc/unbound
     force: yes
+    state: link

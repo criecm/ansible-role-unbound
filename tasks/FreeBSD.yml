@@ -8,3 +8,21 @@
     line: 'unbound_pidfile="/var/run/unbound.pid"'
     regexp: '^unbound_pidfile'
   when: unbound_pidfile != ""
+
+# replace local unbound config by port's one
+- name: stat local_unbound config dir
+  stat:
+    path: /var/unbound
+  register: localconfdir
+
+- name: rename unbound config dir
+  file:
+    path: /var/unbound
+    state: absent
+  when: localconfdir.stat.isdir
+
+- name: link local unbound config
+  file:
+    dest: /var/unbound
+    src: /usr/local/etc/unbound
+    force: yes

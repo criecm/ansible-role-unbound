@@ -12,15 +12,15 @@ server:
 	hide-identity: yes
 	hide-version: yes
 {% if unbound_interfaces | count() > 0 %}
-  {% for ip in unbound_interfaces %}
-    {% if ip not in ["127.0.0.1","::1"] %}
+{% for ip in unbound_interfaces %}
+{% if ip not in ["127.0.0.1","::1"] %}
 	interface: {{ ip }}
-    {% endif %}
-  {% endfor %}
+{% endif %}
+{% endfor %}
 {% else %}
-  {% for ip in ansible_all_ipv4_addresses | union(ansible_all_ipv6_addresses) %}
+{% for ip in ansible_all_ipv4_addresses | union(ansible_all_ipv6_addresses) %}
 	interface: {{ ip }}
-  {% endfor %}
+{% endfor %}
 {% endif %}
 	auto-trust-anchor-file: "{{ unbound_trust_anchor }}"
 {% if unbound_root_hints %}
@@ -31,9 +31,9 @@ server:
 {% if our_nets | union(private_nets) | count > 0 %}
 	access-control: 127.0.0.0/8 allow
 	access-control: ::1 allow
-  {% for net in our_nets | union(private_nets) %}
+{% for net in our_nets | union(private_nets) %}
 	access-control: {{ net }} allow
-  {% endfor %}
+{% endfor %}
 {% endif %}
 
 {% for priv_reverse in unbound_nodefault %}
@@ -47,9 +47,9 @@ server:
 
 {% for dom in private_domains %}
 	domain-insecure: "{{ dom.name }}"
-  {% if not dom.name | match(".*\.arpa\.?") %}
+{% if not dom.name | match(".*\.arpa\.?") %}
 	private-domain: "{{ dom.name }}"
-  {% endif %}
+{% endif %}
 {% endfor %}
 
 remote-control:
@@ -63,17 +63,17 @@ remote-control:
 
 stub-zone:
 	name: "{{ dom.name }}"
-  {% for master in dom.masters %}
+{% for master in dom.masters %}
 	stub-addr: {{ master }}
-  {% endfor %}
+{% endfor %}
 {% endfor %}
 {% for dom in unbound_forward_domains %}
 
 forward-zone:
 	name: "{{ dom.name }}"
-  {% for master in dom.masters %}
+{% for master in dom.masters %}
 	forward-addr: {{ master }}
-  {% endfor %}
+{% endfor %}
 {% endfor %}
 {% if unbound_forwarders | count() > 0 %}
 

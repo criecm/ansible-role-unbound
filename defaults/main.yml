@@ -5,6 +5,7 @@ unbound_dir: /etc/unbound
 unbound_trust_anchor: /etc/unbound/root.key
 unbound_control_interface: ''
 unbound_root_hints: ''
+unbound_port: 53
 #/etc/unbound/named.cache
 
 # unbound service ip's (may be ip@port)

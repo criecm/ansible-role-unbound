@@ -11,6 +11,9 @@ server:
 	do-ip6: yes
 	hide-identity: yes
 	hide-version: yes
+{% if unbound_port != 53 %}
+	port: {{ unbound_port }}
+{% endif %}
 {% if unbound_interfaces | count() > 0 %}
 {% for ip in unbound_interfaces %}
 {% if ip not in ["127.0.0.1","::1"] %}
@@ -62,7 +65,7 @@ remote-control:
 
 stub-zone:
 	name: "{{ dom.name }}"
-{% if unbound_stub_force_masters | count > 0 %}
+{% if unbound_stub_force_masters | default([]) | count > 0 %}
 {% for master in unbound_stub_force_masters %}
 	stub-addr: {{ master }}
 {% endfor %}

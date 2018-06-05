@@ -44,3 +44,15 @@
     backup: yes
   tags: unbound,config,zones
   notify: restart unbound
+
+- name: to_monitor
+  block: 
+  - set_fact:
+      tmpmon:
+        - proto: dns
+          name: 'unbound {{ ansible_fqdn }}'
+          port: '{{ unbound_port }}'
+          host: '{{ inventory_hostname }}'
+          type: resolver
+  - set_fact:
+      to_monitor: '{{ to_monitor | default([]) | union(tmpmon) }}'

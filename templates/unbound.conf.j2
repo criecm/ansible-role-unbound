@@ -50,7 +50,7 @@ server:
 
 {% for dom in private_domains %}
 	domain-insecure: "{{ dom.name }}"
-{% if not dom.name | match(".*\.arpa\.?") %}
+{% if not dom.name is match(".*\.arpa\.?") %}
 	private-domain: "{{ dom.name }}"
 {% endif %}
 {% endfor %}

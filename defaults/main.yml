@@ -48,3 +48,6 @@ unbound_forwarders: []
 
 # forward-zones (same syntax as our_domains, but 'master' MUST be a resolver itself
 unbound_forward_domains: []
+
+# is_jail (set this to true for freebsd jail without VNET)
+is_jail: False

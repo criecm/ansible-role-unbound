@@ -71,7 +71,22 @@ remote-control:
 {% endif %}
 {% endif %}
 
-{% for dom in our_domains | union(private_domains) %}
+{% for dom in private_domains %}
+
+stub-zone:
+	name: "{{ dom.name }}"
+{% if unbound_stub_force_masters | default([]) | count > 0 %}
+{% for master in unbound_stub_force_masters %}
+	stub-addr: {{ master }}
+{% endfor %}
+{% else %}
+{% for master in dom.masters %}
+	stub-addr: {{ master }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+{% for dom in our_domains if not private_domains | selectattr('name','equalto',dom.name) | bool %}
 
 stub-zone:
 	name: "{{ dom.name }}"

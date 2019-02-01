@@ -86,7 +86,7 @@ stub-zone:
 {% endif %}
 {% endfor %}
 
-{% for dom in our_domains if not private_domains | selectattr('name','equalto',dom.name) | bool %}
+{% for dom in our_domains if not private_domains | selectattr('name','equalto',dom.name) | list | count > 0 %}
 
 stub-zone:
 	name: "{{ dom.name }}"

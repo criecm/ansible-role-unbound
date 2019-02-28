@@ -1,10 +1,12 @@
 ---
-- include_vars: "{{ item }}"
+- name: OS vars
+  include_vars: "{{ item }}"
   with_first_found:
     - '{{ansible_os_family}}.yml'
   tags: unbound
 
-- include_tasks: '{{ item }}'
+- name: OS tasks
+  include_tasks: '{{ item }}'
   with_first_found:
     - files:
       - '{{ansible_os_family}}.yml'
@@ -27,7 +29,7 @@
   command: '{{ unbound_base }}-control-setup'
   when: unbound_key.stat.exists == False
   tags: unbound,config
-  
+
 - name: root hints
   get_url:
     url: 'http://www.internic.net/domain/named.root'
@@ -46,14 +48,16 @@
   notify: restart unbound
 
 - name: to_monitor
-  block: 
-  - set_fact:
+  block:
+  - name: tmpmon
+    set_fact:
       tmpmon:
         - proto: dns
           name: 'unbound {{ ansible_fqdn }}'
           port: '{{ unbound_port }}'
           host: '{{ inventory_hostname }}'
           type: resolver
-  - set_fact:
+  - name: add to to_monitor
+    set_fact:
       to_monitor: '{{ to_monitor | default([]) | union(tmpmon) }}'
       cacheable: yes

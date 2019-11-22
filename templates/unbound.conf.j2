@@ -41,10 +41,16 @@ server:
 {% endfor %}
 {% endif %}
 
+{% if unbound_dns64 %}
+	module-config: "dns64 validator iterator"
+{%   if unbound_dns64_prefix %}
+	dns64-prefix: {{ unbound_dns64_prefix }}
+{%   endif %}
+{% endif %}
+
 {% for priv_reverse in unbound_nodefault %}
 	local-zone: "{{ priv_reverse }}" nodefault
 {% endfor %}
-
 
 {% for net in private_nets %}
 	private-address: {{ net }}

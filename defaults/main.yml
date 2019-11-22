@@ -51,3 +51,5 @@ unbound_forward_domains: []
 
 # is_jail (set this to true for freebsd jail without VNET)
 is_jail: False
+
+unbound_dns64: False

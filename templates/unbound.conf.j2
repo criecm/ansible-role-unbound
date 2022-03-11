@@ -115,6 +115,7 @@ forward-zone:
 	forward-addr: {{ master }}
 {% endfor %}
 {% endfor %}
+
 {% if unbound_forwarders | count() > 0 %}
 
 forward-zone:

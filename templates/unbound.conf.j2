@@ -125,3 +125,5 @@ forward-zone:
   {% endfor %}
 	forward-first: yes
 {% endif %}
+
+include-toplevel: {{ unbound_dir }}/blacklist.conf

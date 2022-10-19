@@ -47,6 +47,14 @@
   tags: unbound,config,zones
   notify: restart unbound
 
+- name: touch blacklist.conf
+  copy:
+    dest: '{{ unbound_dir }}/blacklist.conf'
+    mode: '0644'
+    force: no
+    content: |
+      # local-zone: "chaud.com" always_nxdomain
+
 - name: to_monitor
   block:
   - name: tmpmon

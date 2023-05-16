@@ -55,6 +55,11 @@
     content: |
       # local-zone: "chaud.com" always_nxdomain
 
+- name: register vars for munin
+  set_fact:
+    unbound_base: '{{ unbound_base }}'
+    cacheable: yes
+
 - name: to_monitor
   block:
   - name: tmpmon

@@ -53,3 +53,10 @@ unbound_forward_domains: []
 is_jail: False
 
 unbound_dns64: False
+
+unbound_tls_basedir: '{% if ansible_os_family is match("FreeBSD") %}/usr/local{% endif %}/etc/ssl'
+
+unbound_tls_bundle: /etc/ssl/cert.pem
+
+unbound_dot: False
+unbound_doh: False

@@ -20,6 +20,12 @@ server:
 {% for ip in unbound_interfaces %}
 {% if ip not in ["127.0.0.1","::1"] %}
 	interface: {{ ip }}
+{%   if unbound_do_dot | default(False) %}
+	interface: {{ ip }}@853
+{%   endif %}
+{%   if unbound_do_doh | default(False) %}
+        interface: {{ ip }}@443
+{%   endif %}
 {% endif %}
 {% endfor %}
 {% else %}
@@ -39,6 +45,15 @@ server:
 {% for net in our_nets | union(private_nets) %}
 	access-control: {{ net }} allow
 {% endfor %}
+{% endif %}
+
+{% if unbound_tls_bundle %}
+	tls-cert-bundle: {{ unbound_tls_bundle }}
+{% endif %}
+
+{% if unbound_do_dot | default(False) or unbound_do_doh | default(False) %}
+	tls-service-pem: {{ unbound_tls_basedir }}/{{ unbound_tls_cert | basename }}
+	tls-service-key: {{ unbound_tls_basedir }}/{{ unbound_tls_key | basename }}
 {% endif %}
 
 {% if unbound_dns64 %}

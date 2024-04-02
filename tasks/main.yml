@@ -36,6 +36,47 @@
     dest: '{{ unbound_root_hints }}'
   tags: unbound,config
 
+- name: TLS ca certs
+  block:
+    - name: cert.pem
+      stat:
+        path: '{{ unbound_tls_bundle }}'
+      register: ca_cert_pem
+    - name: create cert.pem
+      shell: 'cat /etc/ssl/certs/*.[01] > {{ unbound_tls_bundle }}'
+      args:
+        creates: '{{ unbound_tls_bundle }}'
+      when: not ca_cert_pem.stat.exists
+  when: unbound_tls_bundle
+
+- name: TLS
+  block:
+    - name: tls key dir
+      file:
+        path: '{{ unbound_tls_basedir }}/private'
+        state: directory
+        owner: root
+        mode: '0700'
+    - name: tls key
+      copy:
+        src: '{{ unbound_tls_key }}'
+        dest: '{{ unbound_tls_basedir }}/private/{{ unbound_tls_key | basename }}'
+        mode: '0600'
+        owner: root
+        force: '{{ unbound_force_tls_cert | default(False) }}'
+    - name: tls cert
+      copy:
+        src: '{{ unbound_tls_cert }}'
+        dest: '{{ unbound_tls_basedir }}/{{ unbound_tls_cert | basename }}'
+        mode: '0600'
+        owner: root
+        force: '{{ unbound_force_tls_cert | default(False) }}'
+    - name: do_tls fact
+      set_fact:
+        unbound_do_dot: '{{ unbound_dot }}'
+        unbound_do_doh: '{{ unbound_doh }}'
+  when: unbound_tls_key and unbound_tls_cert
+
 - name: unbound.conf
   template:
     src: unbound.conf.j2

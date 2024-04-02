@@ -34,4 +34,15 @@ Serveur DNS recursif
 * `unbound_dns64_prefix ("")`
 * `unbound_dns64 (False)`
   Enable DNS64
-
+* `unbound_tls_key ("")`
+  tls key file for DOT and DOH
+* `unbound_tls_cert ("")`
+  tls cert file for DOT and DOH
+* `unbound_tls_bundle (/etc/ssl/cert.pem)`
+  set to "" to disable. Allows use of DOT on upstream zones
+* `unbound_dot (False)`
+  needs unbound_tls_key and unbound_tls_cert
+  Enable DNS over TLS support
+* `unbound_doh (False)`
+  needs unbound_tls_key and unbound_tls_cert
+  Enable DNS over HTTPS support

@@ -24,7 +24,7 @@ server:
 	interface: {{ ip }}@853
 {%   endif %}
 {%   if unbound_do_doh | default(False) %}
-        interface: {{ ip }}@443
+  interface: {{ ip }}@443
 {%   endif %}
 {% endif %}
 {% endfor %}
@@ -53,7 +53,7 @@ server:
 
 {% if unbound_do_dot | default(False) or unbound_do_doh | default(False) %}
 	tls-service-pem: {{ unbound_tls_basedir }}/{{ unbound_tls_cert | basename }}
-	tls-service-key: {{ unbound_tls_basedir }}/{{ unbound_tls_key | basename }}
+	tls-service-key: {{ unbound_tls_basedir }}/private/{{ unbound_tls_key | basename }}
 {% endif %}
 
 {% if unbound_dns64 %}

@@ -75,7 +75,7 @@
       set_fact:
         unbound_do_dot: '{{ unbound_dot }}'
         unbound_do_doh: '{{ unbound_doh }}'
-  when: unbound_tls_key and unbound_tls_cert
+  when: unbound_tls_key != '' and unbound_tls_cert != ''
 
 - name: unbound.conf
   template:

@@ -58,5 +58,8 @@ unbound_tls_basedir: '{% if ansible_os_family is match("FreeBSD") %}/usr/local{%
 
 unbound_tls_bundle: /etc/ssl/cert.pem
 
+unbound_tls_key: ''
+unbound_tls_cert: ''
+
 unbound_dot: False
 unbound_doh: False

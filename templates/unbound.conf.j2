@@ -9,6 +9,14 @@ server:
 {% if not is_jail %}
 	interface: 127.0.0.1
 	interface: ::1
+{%   if unbound_do_dot | default(False) %}
+	interface: 127.0.0.1@853
+	interface: ::1@853
+{%   endif %}
+{%   if unbound_do_doh | default(False) %}
+	interface: 127.0.0.1@443
+	interface: ::1@443
+{%   endif %}
 {% endif %}
 	do-ip6: yes
 	hide-identity: yes
@@ -24,7 +32,7 @@ server:
 	interface: {{ ip }}@853
 {%   endif %}
 {%   if unbound_do_doh | default(False) %}
-  interface: {{ ip }}@443
+	interface: {{ ip }}@443
 {%   endif %}
 {% endif %}
 {% endfor %}

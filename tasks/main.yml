@@ -30,6 +30,12 @@
   when: unbound_key.stat.exists == False
   tags: unbound,config
 
+- name: get unbound compile options
+  command: '{{ unbound_base }} -V'
+  register: unbound_V
+  check_mode: False
+  changed_when: False
+
 - name: root hints
   get_url:
     url: 'http://www.internic.net/domain/named.root'
@@ -74,7 +80,7 @@
     - name: do_tls fact
       set_fact:
         unbound_do_dot: '{{ unbound_dot }}'
-        unbound_do_doh: '{{ unbound_doh }}'
+        unbound_do_doh: '{% if unbound_V is search("--with-libnghttp2") %}{{ unbound_doh }}{% else %}False{% endif %}'
   when: unbound_tls_key != '' and unbound_tls_cert != ''
 
 - name: unbound.conf

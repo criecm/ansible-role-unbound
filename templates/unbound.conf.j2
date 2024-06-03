@@ -93,9 +93,9 @@ remote-control:
 {% else %}
 {% if is_jail %}
 {% if ansible_all_ipv4_addresses | count > 0 %}
-        control-interface: {{ ansible_all_ipv4_addresses[0] }}
+	control-interface: {{ ansible_all_ipv4_addresses[0] }}
 {% else %}
-       control-interface: {{ ansible_all_ipv6_addresses[0] }}
+	control-interface: {{ ansible_all_ipv6_addresses[0] }}
 {% endif %}
 {% endif %}
 {% endif %}
@@ -104,30 +104,33 @@ remote-control:
 
 stub-zone:
 	name: "{{ dom.name }}"
-{% if unbound_stub_force_masters | default([]) | count > 0 %}
-{% for master in unbound_stub_force_masters %}
+{%   if unbound_stub_force_masters | default([]) | count > 0 %}
+{%     for master in unbound_stub_force_masters %}
 	stub-addr: {{ master }}
-{% endfor %}
-{% else %}
-{% for master in dom.masters %}
+{%     endfor %}
+{%   else %}
+{%     for master in dom.masters %}
 	stub-addr: {{ master }}
-{% endfor %}
-{% endif %}
+{%     endfor %}
+{%   endif %}
+{%   if dom.nocache | default(False) %}
+	stub-no-cache: yes
+{%   endif %}
 {% endfor %}
 
 {% for dom in our_domains if not private_domains | selectattr('name','equalto',dom.name) | list | count > 0 %}
 
 stub-zone:
 	name: "{{ dom.name }}"
-{% if unbound_stub_force_masters | default([]) | count > 0 %}
-{% for master in unbound_stub_force_masters %}
+{%   if unbound_stub_force_masters | default([]) | count > 0 %}
+{%     for master in unbound_stub_force_masters %}
 	stub-addr: {{ master }}
-{% endfor %}
-{% else %}
-{% for master in dom.masters %}
+{%     endfor %}
+{%   else %}
+{%     for master in dom.masters %}
 	stub-addr: {{ master }}
-{% endfor %}
-{% endif %}
+{%     endfor %}
+{%   endif %}
 {% endfor %}
 
 {% for dom in unbound_forward_domains %}
@@ -137,6 +140,18 @@ forward-zone:
 {% for master in dom.masters %}
 	forward-addr: {{ master }}
 {% endfor %}
+{% endfor %}
+
+{% for dom in unbound_stub_domains %}
+
+stub-zone:
+	name: "{{ dom.name }}"
+{%   for master in dom.masters %}
+	stub-addr: {{ master }}
+{%   endfor %}
+{%   if dom.nocache | default(False) %}
+	stub-no-cache: yes
+{%   endif %}
 {% endfor %}
 
 {% if unbound_forwarders | count() > 0 %}

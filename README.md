@@ -23,6 +23,9 @@ Serveur DNS recursif
 * `private_domains ([])`
   domains allowed to contain `private_nets` IP's (and config stub-zone)
   same syntax as `our_domains`
+* `unbound_force_masters ([])`
+  if defined, `our_domains` and `private_domains`'s "masters" will be overriden
+  by `unbound_force_masters` (for example to use a local nsd)
 * `unbound_nodefault ([])`
   RFC1918/RFC3330/RFC4291/RFC4193/RFC4291/RFC7686 local zones
   eg: - 168.192.in-addr.arpa.
@@ -31,6 +34,9 @@ Serveur DNS recursif
 * `unbound_forward_domains ([])`
   forward-zones
   same syntax as `our_domains`, but 'master' MUST be a resolver itself
+* `unbound_stub_domains ([])`
+  forward-zones
+  same syntax as `our_domains`, avoids `unbound_force_masters` mechanism
 * `unbound_dns64_prefix ("")`
 * `unbound_dns64 (False)`
   Enable DNS64
@@ -41,8 +47,8 @@ Serveur DNS recursif
 * `unbound_tls_bundle (/etc/ssl/cert.pem)`
   set to "" to disable. Allows use of DOT on upstream zones
 * `unbound_dot (False)`
-  needs unbound_tls_key and unbound_tls_cert
+  needs `unbound_tls_key` and `unbound_tls_cert`
   Enable DNS over TLS support
 * `unbound_doh (False)`
-  needs unbound_tls_key and unbound_tls_cert
+  needs `unbound_tls_key` and `unbound_tls_cert`
   Enable DNS over HTTPS support

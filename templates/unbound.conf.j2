@@ -50,7 +50,7 @@ server:
 {% if our_nets | union(private_nets) | count > 0 %}
 	access-control: 127.0.0.0/8 allow
 	access-control: ::1 allow
-{% for net in our_nets | union(private_nets) %}
+{% for net in our_nets | union(private_nets) | sort %}
 	access-control: {{ net }} allow
 {% endfor %}
 {% endif %}

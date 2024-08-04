@@ -44,7 +44,7 @@ Serveur DNS recursif
   tls key file for DOT and DOH
 * `unbound_tls_cert ("")`
   tls cert file for DOT and DOH
-* `unbound_tls_bundle (/etc/ssl/cert.pem)`
+* `unbound_tls_bundle ('')`
   set to "" to disable. Allows use of DOT on upstream zones
 * `unbound_dot (False)`
   needs `unbound_tls_key` and `unbound_tls_cert`
